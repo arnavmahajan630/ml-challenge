@@ -1,0 +1,21 @@
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environments
+.env
+.venv/
+env/
+venv/
+ENV/
+
+# Pytest
+.pytest_cache/
+
+# Project specific
+dataset/
+artifacts/
+output/
+reports/
+*.parquet
+*.pkl

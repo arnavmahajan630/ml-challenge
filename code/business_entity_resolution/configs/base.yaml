@@ -1,0 +1,106 @@
+# configs/base.yaml
+seed: 42
+data:
+  train_dir: dataset/train
+  test_dir: dataset/test
+  train_s1: train_source1.tsv
+  train_s2: train_source2.tsv
+  train_s3: train_source3.tsv
+  train_gt: train_ground_truth.tsv
+  test_s1: test_source1.tsv
+  test_s2: test_source2.tsv
+  test_s3: test_source3.tsv
+blocking:
+  k_tfidf: 30
+  k_dense: 30
+  k_phonetic: 20
+  k_addr_anchor: 20
+  k_union: 100
+  k_final: 20
+  k_max: 50
+  prefilter_min_prob: 0.01
+  country_partition: auto
+model:
+  biencoder:
+    base: intfloat/multilingual-e5-base
+    revision: ""
+    max_len: 96
+    lr: 2.0e-05
+    epochs: 3
+    batch_size: 64
+    label_free_frac: 0.2
+  gbm:
+    objective: binary
+    num_leaves: 63
+    n_estimators: 1000
+    seed_bag:
+    - 42
+    - 123
+    - 777
+    deterministic: true
+    force_col_wise: true
+    num_threads: 4
+  cross_encoder:
+    base: xlm-roberta-base
+    revision: ""
+    max_len: 160
+    lr: 2.0e-05
+    epochs: 3
+    warmup_frac: 0.06
+    neg_pos_ratio: 6
+    focal_gamma: null
+  rec2rec:
+    enabled: false
+    num_leaves: 31
+  entity_model:
+    enabled: true
+    num_leaves: 31
+  llm_reranker:
+    base: microsoft/Phi-4-mini-instruct
+    revision: ""
+    lora_r: 16
+    lora_alpha: 32
+    lora_dropout: 0.05
+    lr: 0.0001
+    epochs: 2
+    uncertain_lo: 0.02
+    uncertain_hi: 0.98
+    use_qlora: false
+training:
+  backend: local
+  sagemaker:
+    instance_type: ml.g6e.xlarge
+    role_arn: ""
+decode:
+  mode: threshold_relative
+  threshold: 0.5
+  alpha: 0.5
+  singleton_gate: 0.3
+  prob_power_grid:
+  - 0.7
+  - 0.8
+  - 0.9
+  - 1.0
+  - 1.1
+  - 1.2
+  - 1.5
+  empty_bonus_grid:
+  - 0.9
+  - 0.95
+  - 1.0
+  - 1.05
+  - 1.1
+  - 1.15
+  - 1.2
+  lambda_miss: 0.0
+  entity_model_variant: none
+  conflict_mode: hard
+  conflict_delta: 0.2
+  soft_lambda0: 0.1
+s3:
+  bucket: ""
+  prefix: ber
+hf_hub_offline: false
+artifacts_dir: artifacts
+output_dir: output
+reports_dir: reports

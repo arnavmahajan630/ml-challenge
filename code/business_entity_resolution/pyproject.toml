@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "business_entity_resolution"
+version = "0.1.0"
+description = "Business Entity Resolution ML Pipeline"
+readme = "README.md"
+requires-python = ">=3.8"
+dependencies = [
+    "pandas>=2.0.0",
+    "numpy>=1.24.0",
+    "scikit-learn>=1.2.0",
+    "scipy>=1.10.0",
+    "torch>=2.0.0",
+    "transformers>=4.30.0",
+    "sentence-transformers>=2.2.2",
+    "lightgbm>=4.0.0",
+    "faiss-gpu>=1.7.4",
+    "rapidfuzz>=3.0.0",
+    "pyyaml>=6.0",
+    "tqdm>=4.65.0",
+    "boto3>=1.28.0",
+    "sagemaker>=2.170.0",
+    "pytest>=7.4.0",
+    "pyarrow>=12.0.0"
+]
+
+[project.scripts]
+ber-cli = "src.cli:main"
